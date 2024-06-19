@@ -76,7 +76,7 @@ function parseEnvArray(envVar) {
     throw new Error('No valid SEED_PHRASES or PRIVATE_KEYS found in the .env file')
   }
 
-  const randomAddresses = generateRandomAddresses(10)
+  const randomAddresses = generateRandomAddresses(100)
   console.log('Generated 100 random addresses:', randomAddresses)
 
   const amountToSend = 0.001
