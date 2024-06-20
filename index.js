@@ -58,6 +58,10 @@ function parseEnvArray(envVar) {
   }
 }
 
+async function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 ;(async () => {
   const seedPhrases = parseEnvArray(process.env.SEED_PHRASES)
   const privateKeys = parseEnvArray(process.env.PRIVATE_KEYS)
@@ -81,6 +85,7 @@ function parseEnvArray(envVar) {
 
   const amountToSend = 0.001
   let currentKeypairIndex = 0
+  const delayBetweenRequests = 5000
 
   for (const address of randomAddresses) {
     const toPublicKey = new PublicKey(address)
@@ -90,7 +95,7 @@ function parseEnvArray(envVar) {
     } catch (error) {
       console.error(`Failed to send SOL to ${address}:`, error)
     }
-
     currentKeypairIndex = (currentKeypairIndex + 1) % keypairs.length
+    await delay(delayBetweenRequests)
   }
 })()
