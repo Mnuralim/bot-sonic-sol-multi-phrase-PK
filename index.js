@@ -14,6 +14,7 @@ require('dotenv').config()
 
 const DEVNET_URL = 'https://devnet.sonic.game/'
 const connection = new Connection(DEVNET_URL, 'confirmed')
+const keypairs = []
 
 async function sendSol(fromKeypair, toPublicKey, amount) {
   const transaction = new Transaction().add(
@@ -58,6 +59,10 @@ function parseEnvArray(envVar) {
   }
 }
 
+async function getSolanaBalance(fromKeypair) {
+  return connection.getBalance(fromKeypair.publicKey)
+}
+
 async function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
@@ -65,8 +70,6 @@ async function delay(ms) {
 ;(async () => {
   const seedPhrases = parseEnvArray(process.env.SEED_PHRASES)
   const privateKeys = parseEnvArray(process.env.PRIVATE_KEYS)
-
-  const keypairs = []
 
   for (const seedPhrase of seedPhrases) {
     keypairs.push(await getKeypairFromSeed(seedPhrase))
@@ -80,15 +83,26 @@ async function delay(ms) {
     throw new Error('No valid SEED_PHRASES or PRIVATE_KEYS found in the .env file')
   }
 
-  const randomAddresses = generateRandomAddresses(100)
-  console.log('Generated 100 random addresses:', randomAddresses)
+  const randomAddresses = generateRandomAddresses(keypairs.length * 100)
+  console.log(`Generated ${keypairs.length * 100} random addresses:`, randomAddresses)
 
-  const amountToSend = 0.001
+  const amountToSend = 0.0009 //minimum 0.0009 sol
   let currentKeypairIndex = 0
-  const delayBetweenRequests = 5000
+  const delayBetweenRequests = 5000 //replace if the network is congested
+  const solBalance = (await getSolanaBalance(keypairs[currentKeypairIndex])) / 1000000000
+
+  if (solBalance <= 0) {
+    console.log(`Insufficient balance: ${solBalance} SOL`)
+    return
+  }
+  if (solBalance < amountToSend * 100) {
+    console.log(`Insufficient balance: ${solBalance} SOL`)
+    return
+  }
 
   for (const address of randomAddresses) {
     const toPublicKey = new PublicKey(address)
+
     try {
       await sendSol(keypairs[currentKeypairIndex], toPublicKey, amountToSend)
       console.log(`Successfully sent ${amountToSend} SOL to ${address}`)
