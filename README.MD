@@ -17,7 +17,7 @@ git clone https://github.com/Mnuralim/bot-sonic-sol-multi-phrase-PK.git
 ```
 
 ```
-cd bot-sonic-sol
+cd bot-sonic-sol-multi-phrase-PK
 ```
 
 ### 2. Instal Dependensi
