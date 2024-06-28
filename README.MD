@@ -1,4 +1,4 @@
-Feel free donate to my EVM and Solana address
+Feel free donate to my EVM address
 
 EVM :
 
@@ -6,11 +6,7 @@ EVM :
 0x9902C3A98Df4b240ad5496cC26F89bAb8058f4aE
 ```
 
-SOL :
 
-```bash
-8BzHRXhHK2ijuVe5VEG6BzyqF8rHSqx4LEeD4pnmpkDh
-```
 
 ## Langkah-langkah
 
@@ -21,7 +17,7 @@ git clone https://github.com/Mnuralim/bot-sonic-sol-multi-phrase-PK.git
 ```
 
 ```
-cd bot-sonic-sol
+cd bot-sonic-sol-multi-phrase-PK
 ```
 
 ### 2. Instal Dependensi
