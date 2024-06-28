@@ -83,7 +83,7 @@ async function delay(ms) {
     throw new Error('No valid SEED_PHRASES or PRIVATE_KEYS found in the .env file')
   }
 
-  const randomAddresses = generateRandomAddresses(keypairs.length * 100)
+  const randomAddresses = generateRandomAddresses(keypairs.length * 2)
   console.log(`Generated ${keypairs.length * 100} random addresses:`, randomAddresses)
 
   const amountToSend = 0.001 //minimum 0.001 sol

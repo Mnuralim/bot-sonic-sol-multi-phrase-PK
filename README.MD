@@ -37,6 +37,7 @@ buat file .env di root projek
 ```bash
 SEED_PHRASES=["your seed phrase 1", "your seed phrase 2"]
 PRIVATE_KEYS=["your private key 1", "your private key 2"]
+AUTH_TOKENS=["your bearer token1","your bearer token2"]
 ```
 
 ### 4. Run script
