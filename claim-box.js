@@ -4,9 +4,7 @@ const fetchData = async (stage, authToken) => {
   try {
     const response = await fetch('https://odyssey-api.sonic.game/user/transactions/rewards/claim', {
       method: 'POST',
-      body: JSON.stringify({
-        stage,
-      }),
+      body: JSON.stringify({ stage }),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
@@ -22,11 +20,15 @@ const fetchData = async (stage, authToken) => {
 
 ;(async () => {
   const stages = [1, 2, 3]
-  const authTokens = JSON.parse(process.env.AUTH_TOKENS)
+  const authTokens = JSON.parse(process.env.AUTH_TOKENS || '[]')
+
+  if (authTokens.length === 0) {
+    console.log('No auth tokens found')
+  }
 
   for (let i = 0; i < stages.length; i++) {
     const stage = stages[i]
-    const authToken = authTokens[i]
+    const authToken = authTokens[i % authTokens.length]
     await fetchData(stage, authToken)
   }
 })()
