@@ -9,7 +9,6 @@ const {
 } = require('@solana/web3.js')
 const bip39 = require('bip39')
 const { derivePath } = require('ed25519-hd-key')
-const bs58 = require('bs58')
 require('dotenv').config()
 
 const DEVNET_URL = 'https://devnet.sonic.game/'
@@ -46,8 +45,9 @@ async function getKeypairFromSeed(seedPhrase) {
 }
 
 function getKeypairFromPrivateKey(privateKey) {
-  const decoded = bs58.decode(privateKey)
-  return Keypair.fromSecretKey(decoded)
+  const decoded = Uint8Array.from(Buffer.from(privateKey, 'hex'))
+  console.log(decoded)
+  return Keypair.fromSeed(decoded)
 }
 
 function parseEnvArray(envVar) {
